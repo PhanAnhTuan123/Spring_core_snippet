@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+	<persistence-unit name="myPersistenceUnit" transaction-type="RESOURCE_LOCAL">			
+
+		<properties>
+			
+			<!-- MySQL (does NOT support database sequences; use Hibernate 5.0.4 jars with it to make GenerationType.SEQUENCE work) -->
+			<!-- Database connection settings -->															
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mydb" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="password" />			
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />			  			
+ 			
+			<!-- ############################################################################### -->	
+			
+			<!-- H2 (supports database sequences) -->
+			<!-- Database connection settings -->
+			<!-- 
+			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:h2:./data/mydb" />			 
+			<property name="javax.persistence.jdbc.user" value="sa" />
+			<property name="javax.persistence.jdbc.password" value="" />			
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+			 -->
+ 			<!-- ############################################################################### -->
+
+			<!-- DROP and then CREATE schema when EntityManagerFactory is created -->
+			<property name="hibernate.hbm2ddl.auto" value="create" />			
+			
+		</properties>
+	</persistence-unit>
+</persistence>
