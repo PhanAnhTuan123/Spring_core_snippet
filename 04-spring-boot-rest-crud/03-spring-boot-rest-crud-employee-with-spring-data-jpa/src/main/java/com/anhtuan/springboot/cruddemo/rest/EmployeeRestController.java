@@ -1,11 +1,8 @@
 package com.anhtuan.springboot.cruddemo.rest;
 
-import com.anhtuan.springboot.cruddemo.dao.EmployeeDAO;
 import com.anhtuan.springboot.cruddemo.entity.Employee;
 import com.anhtuan.springboot.cruddemo.error.EmployeeNotFoundException;
 import com.anhtuan.springboot.cruddemo.service.EmployeeService;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
