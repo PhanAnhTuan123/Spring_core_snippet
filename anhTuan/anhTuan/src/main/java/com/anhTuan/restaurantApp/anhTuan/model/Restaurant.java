@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Value;
 
 import java.util.Set;
 
@@ -11,6 +12,12 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@NamedQueries(
+        value = {
+                @NamedQuery(name = "Restaurant.showByType",query = "from Restaurant  r where  r.type like 'non-veg' ")
+        }
+
+)
 public class Restaurant {
     @Id
     @GeneratedValue(generator = "res_gen",strategy = GenerationType.AUTO)
@@ -23,11 +30,20 @@ public class Restaurant {
     @Column(length = 30)// veg or non veg
     private String city;
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    // to avoid the intermediate table
+    @JoinColumn(name =  "restaurant_id")
     Set<Item>items;
 
     public Restaurant(String restaurantName, String type, String city) {
         this.restaurantName = restaurantName;
         this.type = type;
         this.city = city;
+    }
+
+    public Restaurant(String restaurantName, String type, String city, Set<Item> items) {
+        this.restaurantName = restaurantName;
+        this.type = type;
+        this.city = city;
+        this.items = items;
     }
 }

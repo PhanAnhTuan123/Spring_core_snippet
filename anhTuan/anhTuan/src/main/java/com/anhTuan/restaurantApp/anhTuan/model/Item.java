@@ -24,4 +24,10 @@ public class Item {
     private String cuisine;
     private double price;
 
+    public Item(String itemName, String category, String cuisine, double price) {
+        this.itemName = itemName;
+        this.category = category;
+        this.cuisine = cuisine;
+        this.price = price;
+    }
 }
