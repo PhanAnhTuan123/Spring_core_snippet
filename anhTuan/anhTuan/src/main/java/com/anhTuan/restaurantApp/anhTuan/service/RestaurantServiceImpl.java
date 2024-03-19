@@ -64,4 +64,9 @@ public class RestaurantServiceImpl implements  IRestaurantService{
     public List<Restaurant> getByCuisine(String cuisine) {
         return null;
     }
+
+    @Override
+    public void updateTypeByRestaurantId(Integer id, String type) {
+        repository.updateRestauraunt(id,type);
+    }
 }

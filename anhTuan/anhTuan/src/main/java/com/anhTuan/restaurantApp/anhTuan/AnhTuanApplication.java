@@ -23,12 +23,14 @@ public class AnhTuanApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Item itemOne = new Item("Dosa","Breakfast","SI",100);
-		Item itemTwo = new Item("FriedRice","MainCourse","Chinese",200);
-		Item itemThree = new Item("Noodles","SuShi","Japan",200);
-
-		Set<Item>items = new HashSet<>(Arrays.asList(itemOne,itemTwo,itemThree));
-		Restaurant restaurant = new Restaurant("Taj","non-veg","Bangalore",items);
-		service.addRestaurant(restaurant);
+//		Item itemOne = new Item("Dosa","Breakfast","SI",100);
+//		Item itemTwo = new Item("FriedRice","MainCourse","Chinese",200);
+//		Item itemThree = new Item("Noodles","SuShi","Japan",200);
+//
+//		Set<Item>items = new HashSet<>(Arrays.asList(itemOne,itemTwo,itemThree));
+//		Restaurant restaurant = new Restaurant("Taj","non-veg","Bangalore",items);
+//		service.addRestaurant(restaurant);
+		service.updateTypeByRestaurantId(1,"veg-non");
+		System.out.println("I'm don't care !!!");
 	}
 }

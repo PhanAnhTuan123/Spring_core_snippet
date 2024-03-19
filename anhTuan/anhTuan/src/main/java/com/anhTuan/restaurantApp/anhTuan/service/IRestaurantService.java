@@ -18,4 +18,6 @@ public interface IRestaurantService {
         //custom queries
         List<Restaurant>getByItemName(String itemName); //dosa
         List<Restaurant>getByCuisine(String cuisine);
+
+        void updateTypeByRestaurantId(Integer id,String type);
 }
