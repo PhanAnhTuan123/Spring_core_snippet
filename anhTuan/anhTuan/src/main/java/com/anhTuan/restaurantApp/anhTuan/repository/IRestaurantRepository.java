@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -27,4 +28,21 @@ public interface IRestaurantRepository extends JpaRepository<Restaurant,Integer>
     @Transactional
     @Query("update Restaurant r set r.type = :type where r.restaurantId = :id")
     void updateRestauraunt(@Param("id") Integer restaurantId,@Param("type") String type);
+
+    // use procedure name as the method name
+    @Procedure
+    int get_count_of_type(String type);
+
+    //Using @Procedure with different method name.
+    //Use attributes to pass procedureName
+    @Procedure(procedureName = "get_count_of_type")
+    int getCountType(String type);
+
+    //Using @NamedStoredProcedureQuery annotation
+    @Procedure(name = "getRestaurantByType")
+    int getCountByType(@Param("type") String type);
+
+    //Using @Query annotation
+    @Query(value = "call get_restaurant_by_type(:type)",nativeQuery = true)
+    List<Restaurant> getRestaurantByType(@Param("type") String type);
 }

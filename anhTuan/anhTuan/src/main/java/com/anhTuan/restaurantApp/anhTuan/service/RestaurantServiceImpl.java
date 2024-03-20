@@ -2,6 +2,7 @@ package com.anhTuan.restaurantApp.anhTuan.service;
 
 import com.anhTuan.restaurantApp.anhTuan.model.Restaurant;
 import com.anhTuan.restaurantApp.anhTuan.repository.IRestaurantRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,5 +69,21 @@ public class RestaurantServiceImpl implements  IRestaurantService{
     @Override
     public void updateTypeByRestaurantId(Integer id, String type) {
         repository.updateRestauraunt(id,type);
+    }
+
+    @Override
+    public int getCountOfType(String type) {
+        return repository.getCountByType(type);
+    }
+
+    @Override
+    @Transactional
+    public int getBRestaurantCount(String type) {
+        return repository.getCountType(type);
+    }
+
+    @Override
+    public List<Restaurant> getRestaurantByType(String type) {
+        return repository.getRestaurantByType(type);
     }
 }

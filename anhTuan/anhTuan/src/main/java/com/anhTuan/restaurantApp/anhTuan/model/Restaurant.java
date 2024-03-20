@@ -18,6 +18,16 @@ import java.util.Set;
         }
 
 )
+@NamedStoredProcedureQueries(
+        value = {
+                @NamedStoredProcedureQuery(name = "getRestaurantByType",
+                        procedureName = "get_count_of_type",
+                        parameters = {
+                            @StoredProcedureParameter(mode = ParameterMode.IN,name = "type",type = String.class),
+                            @StoredProcedureParameter(mode = ParameterMode.OUT,name = "total",type = Integer.class)
+                })
+        }
+)
 public class Restaurant {
     @Id
     @GeneratedValue(generator = "res_gen",strategy = GenerationType.AUTO)
