@@ -1,16 +1,18 @@
-drop table if exists  "books";
-drop table if exists "authors";
-
-DROP  TABLE  IF EXISTS  "authors";
+DROP TABLE IF EXISTS "books";
+DROP TABLE IF EXISTS "authors";
+CREATE SEQUENCE authors_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1;
 CREATE TABLE "authors" (
-                           "id" bigint DEFAULT  nextval('authors_id_seq') not null ,
+                           "id" bigint  DEFAULT nextval('authors_id_seq') NOT NULL,
                            "name" text,
                            "age" integer,
-                           constraint "authors_pkey" primary key("id")
+                           CONSTRAINT "authors_pkey" PRIMARY KEY ("id")
 );
-create table "books"(
-    "isbn" text not null,
-    "title" text,
-    "author_id" bigint,
-    constraint "book_pkey" foreign key ("isbn") references authors(id)
+
+CREATE TABLE "books" (
+                         "isbn" text NOT NULL,
+                         "title" text,
+                         "author_id" bigint,
+                         CONSTRAINT "books_pkey" PRIMARY KEY ("isbn"),
+                         CONSTRAINT "fk_author" FOREIGN KEY(author_id)
+                             REFERENCES authors(id)
 );
