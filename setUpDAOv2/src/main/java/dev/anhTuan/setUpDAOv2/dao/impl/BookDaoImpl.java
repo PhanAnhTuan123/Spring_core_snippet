@@ -3,6 +3,12 @@ package dev.anhTuan.setUpDAOv2.dao.impl;
 import dev.anhTuan.setUpDAOv2.dao.BookDao;
 import dev.anhTuan.setUpDAOv2.domain.Book;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 
 public class BookDaoImpl implements BookDao {
 
@@ -16,5 +22,23 @@ public class BookDaoImpl implements BookDao {
     public void create(Book book) {
         jdbcTemplate.update("INSERT INTO books (isbn,title,author_id) values (?,?,?)",book.getIsbn(),book.getTitle(),book.getAuthorId()
         );
+    }
+
+    @Override
+    public Optional<Book> find(String isbn) {
+        List<Book>result = jdbcTemplate.query("SELECT isbn,title,author_id from books WHERE isbn = ? LIMIT 1",new BookRowMapper(),
+                isbn);
+        return result.stream().findFirst();
+    }
+    public static class BookRowMapper implements RowMapper<Book>{
+        @Override
+        public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
+           return Book.builder()
+                    .isbn(rs.getString("isbn"))
+                    .title(rs.getString("title"))
+                    .authorId(rs.getLong("author_id"))
+                    .build();
+
+        }
     }
 }
