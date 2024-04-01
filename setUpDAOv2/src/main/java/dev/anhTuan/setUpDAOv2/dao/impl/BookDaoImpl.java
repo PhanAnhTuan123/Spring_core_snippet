@@ -4,12 +4,14 @@ import dev.anhTuan.setUpDAOv2.dao.BookDao;
 import dev.anhTuan.setUpDAOv2.domain.Book;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class BookDaoImpl implements BookDao {
 
     private final JdbcTemplate jdbcTemplate;
@@ -36,7 +38,7 @@ public class BookDaoImpl implements BookDao {
            return Book.builder()
                     .isbn(rs.getString("isbn"))
                     .title(rs.getString("title"))
-                    .authorId(rs.getLong("author_id"))
+                    .authorId(rs.getLong("authorId"))
                     .build();
 
         }
