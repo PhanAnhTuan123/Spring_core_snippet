@@ -40,7 +40,14 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public List<Author> findMany() {
-        return null;
+        return jdbcTemplate.query("Select id,name,age From authors"
+                ,new AuthorRowMapper());
+    }
+
+    @Override
+    public void update(long id,Author author) {
+    jdbcTemplate.update("Update authors SET id = ?,name=?,age = ? where id = ?",
+            author.getId(),author.getName(),author.getAge(),id);
     }
 
     public static class AuthorRowMapper implements RowMapper<Author>{

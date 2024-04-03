@@ -43,4 +43,11 @@ public class BookDaoImplTests {
         verify(jdbcTemplate).query(eq("Select isbn,title,author_id from books"),
                 ArgumentMatchers.<BookDaoImpl.BookRowMapper>any());
     }
+    @Test
+    public void testThatUpdateGeneratesCorrectSql(){
+        Book book = TestDataUtil.createTestBook();
+        underTest.update("987-1-233445-2",book);
+        verify(jdbcTemplate).update("UPDATE books set isbn = ?,author_id = ? where isbn = ?",
+                1L,"Nguyen Van A","987-1-233445-2");
+    }
 }

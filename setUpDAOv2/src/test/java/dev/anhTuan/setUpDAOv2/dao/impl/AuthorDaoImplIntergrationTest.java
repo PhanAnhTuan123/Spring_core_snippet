@@ -47,4 +47,5 @@ public class AuthorDaoImplIntergrationTest {
         Assertions.assertThat(result)
                 .hasSize(3).containsExactly(author,authorB,authorC);
     }
+
 }

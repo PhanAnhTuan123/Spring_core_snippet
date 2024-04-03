@@ -2,6 +2,7 @@ package dev.anhTuan.setUpDAOv2.dao.impl;
 
 import dev.anhTuan.setUpDAOv2.TestDataUtil;
 import dev.anhTuan.setUpDAOv2.domain.Author;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -9,6 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import javax.swing.text.html.Option;
+
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -50,6 +55,24 @@ public class AuthorDaoImplTests {
                 ArgumentMatchers.<AuthorDaoImpl.AuthorRowMapper>any()
         );
     }
-
+    @Test
+    public void testThatUpdateGeneratesCorrectSql(){
+        Author author = TestDataUtil.createTestAuthor();
+        underTest.update(3L,author);
+        verify(jdbcTemplate).update(
+                "Update authors SET id = ?,name=?,age = ? where id = ?",
+                1L,"Nguyen Van A",25,3L
+        );
+    }
+    @Test
+    public void testThatAuthorCanBeUpdated(){
+        Author author = TestDataUtil.createTestAuthor();
+        underTest.create(author);
+        author.setName("UPDATED");
+        underTest.update(author.getId(),author);
+        Optional<Author>result = underTest.findOne(author.getId());
+        Assertions.assertThat(result).isPresent();
+        Assertions.assertThat(result.get()).isEqualTo(author);
+    }
 
     }
