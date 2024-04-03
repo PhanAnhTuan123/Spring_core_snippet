@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -30,6 +31,18 @@ public class AuthorDaoImplIntergrationTest {
         Optional<Author>result = underTest.findOne(author.getId());
         Assertions.assertThat(result).isPresent();
         Assertions.assertThat(result.get()).isEqualTo(author);
+    }
+    @Test
+    public void testThatMultipleAuthorCanbeCreatedAndRecalled(){
+        Author author = TestDataUtil.createTestAuthor();
+        underTest.create(author);
+        Author authorB = TestDataUtil.createTestAuthorB();
+        underTest.create(authorB);
+        Author authorC = TestDataUtil.createTestAuthorC();
+        underTest.create(authorC);
 
+        List<Author>result = underTest.find();
+        Assertions.assertThat(result)
+                .hasSize(3).containsExactly(author,authorB,authorC);
     }
 }

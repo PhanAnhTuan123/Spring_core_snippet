@@ -3,6 +3,7 @@ package dev.anhTuan.setUpDAOv2.dao;
 import dev.anhTuan.setUpDAOv2.domain.Author;
 import dev.anhTuan.setUpDAOv2.domain.Book;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AuthorDao {
@@ -11,4 +12,5 @@ public interface AuthorDao {
     Optional<Author>findOne(long l);
 
 
+    List<Author> find();
 }

@@ -4,7 +4,6 @@ import dev.anhTuan.setUpDAOv2.dao.BookDao;
 import dev.anhTuan.setUpDAOv2.domain.Book;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
