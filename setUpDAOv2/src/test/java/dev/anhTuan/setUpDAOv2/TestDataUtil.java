@@ -37,4 +37,18 @@ public final class TestDataUtil {
                 .authorId(1L)
                 .build();
     }
+    public static Book createTestBookB() {
+        return Book.builder()
+                .isbn("987-1-276348-45")
+                .title("Adventure of cricken")
+                .authorId(2L)
+                .build();
+    }
+    public static Book createTestBookC() {
+        return Book.builder()
+                .isbn("987-1-23233-22")
+                .title("The atlantic of Human")
+                .authorId(3L)
+                .build();
+    }
 }

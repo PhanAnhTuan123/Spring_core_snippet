@@ -13,4 +13,6 @@ public interface AuthorDao {
 
 
     List<Author> find();
+
+    List<Author> findMany();
 }

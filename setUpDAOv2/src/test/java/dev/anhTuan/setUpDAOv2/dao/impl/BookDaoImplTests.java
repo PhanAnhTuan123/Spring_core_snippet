@@ -37,4 +37,10 @@ public class BookDaoImplTests {
                 ArgumentMatchers.<BookDaoImpl.BookRowMapper>any(),
                 eq("987-1-233445-2"));
     }
+    @Test
+    public void testThatFindGenertesCorrectSql(){
+        underTest.findMany();
+        verify(jdbcTemplate).query(eq("Select isbn,title,author_id from books"),
+                ArgumentMatchers.<BookDaoImpl.BookRowMapper>any());
+    }
 }
