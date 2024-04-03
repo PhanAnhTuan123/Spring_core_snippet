@@ -50,4 +50,9 @@ public class BookDaoImplTests {
         verify(jdbcTemplate).update("UPDATE books set isbn = ?,author_id = ? where isbn = ?",
                 1L,"Nguyen Van A","987-1-233445-2");
     }
+    @Test
+    public void testThatDeleteGeneratesCorrectSql(){
+        underTest.delete("987-1-233445-2");
+        verify(jdbcTemplate).update("DELETE  from books where isbn = ?","987-1-233445-2");
+    }
 }

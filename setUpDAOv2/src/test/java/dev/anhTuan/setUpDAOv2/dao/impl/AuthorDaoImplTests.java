@@ -74,5 +74,18 @@ public class AuthorDaoImplTests {
         Assertions.assertThat(result).isPresent();
         Assertions.assertThat(result.get()).isEqualTo(author);
     }
+    @Test
+    public void testThatDeleteGeneratesTheCorrectSql(){
+        underTest.delete(1L);
+        verify(jdbcTemplate).update("DELETE FROM authors where id = ?",1L);
+    }
+    @Test
+    public void testThatAuthorCanBeDeleted(){
+        Author author = TestDataUtil.createTestAuthor();
+        underTest.create(author);
+        underTest.delete(author.getId());
+        Optional<Author>result = underTest.findOne(author.getId());
+        Assertions.assertThat(result).isEmpty();
 
+        }
     }

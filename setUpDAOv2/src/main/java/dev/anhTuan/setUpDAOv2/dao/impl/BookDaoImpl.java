@@ -44,6 +44,11 @@ public class BookDaoImpl implements BookDao {
                         .getTitle(),book.getAuthorId(),s);
     }
 
+    @Override
+    public void delete(String isbn) {
+        jdbcTemplate.update("DELETE  from books where isbn = ?",isbn);
+    }
+
     public static class BookRowMapper implements RowMapper<Book>{
         @Override
         public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
