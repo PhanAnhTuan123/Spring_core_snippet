@@ -10,6 +10,11 @@ import org.springframework.stereotype.Component;
 public class BookMapper implements Mapper<BookEntity, BookDTO> {
 
     private ModelMapper modelMapper;
+
+    public BookMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
     @Override
     public BookDTO mapTo(BookEntity bookEntity) {
         return modelMapper.map(bookEntity,BookDTO.class);
