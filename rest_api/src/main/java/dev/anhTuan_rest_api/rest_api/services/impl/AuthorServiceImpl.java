@@ -3,12 +3,13 @@ package dev.anhTuan_rest_api.rest_api.services.impl;
 import dev.anhTuan_rest_api.rest_api.domain.enties.AuthorEntity;
 import dev.anhTuan_rest_api.rest_api.repositories.AuthorRepository;
 import dev.anhTuan_rest_api.rest_api.services.AuthorServices;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
+@Service
 public class AuthorServiceImpl implements AuthorServices {
     private AuthorRepository authorRepository;
 

@@ -16,5 +16,5 @@ public class BookDTO {
 
     private String title;
 
-    private AuthorDTO authorDTO;
+    private AuthorDTO author;
 }

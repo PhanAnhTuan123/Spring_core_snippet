@@ -3,12 +3,13 @@ package dev.anhTuan_rest_api.rest_api.services.impl;
 import dev.anhTuan_rest_api.rest_api.domain.enties.BookEntity;
 import dev.anhTuan_rest_api.rest_api.repositories.BookRepository;
 import dev.anhTuan_rest_api.rest_api.services.BookServices;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
+@Service
 public class BookServiceImpl implements BookServices {
 
     private BookRepository bookRepository;
