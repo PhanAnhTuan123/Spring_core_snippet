@@ -3,6 +3,8 @@ package dev.anhTuan_rest_api.rest_api.services.impl;
 import dev.anhTuan_rest_api.rest_api.domain.enties.BookEntity;
 import dev.anhTuan_rest_api.rest_api.repositories.BookRepository;
 import dev.anhTuan_rest_api.rest_api.services.BookServices;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,5 +57,10 @@ public class BookServiceImpl implements BookServices {
     @Override
     public void delete(String isbn) {
         bookRepository.deleteById(isbn);
+    }
+
+    @Override
+    public Page<BookEntity> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
     }
 }

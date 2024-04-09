@@ -1,6 +1,8 @@
 package dev.anhTuan_rest_api.rest_api.services;
 
 import dev.anhTuan_rest_api.rest_api.domain.enties.BookEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,4 +18,7 @@ public interface BookServices {
     BookEntity partialUpdate(String isbn, BookEntity bookEntity);
 
     void delete(String isbn);
+
+    Page<BookEntity> findAll(Pageable pageable);
+
 }

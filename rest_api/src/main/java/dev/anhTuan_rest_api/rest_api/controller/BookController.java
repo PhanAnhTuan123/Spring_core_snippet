@@ -4,13 +4,17 @@ import dev.anhTuan_rest_api.rest_api.domain.dto.BookDTO;
 import dev.anhTuan_rest_api.rest_api.domain.enties.BookEntity;
 import dev.anhTuan_rest_api.rest_api.mappers.Mapper;
 import dev.anhTuan_rest_api.rest_api.services.BookServices;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Book;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class BookController {
@@ -28,6 +32,11 @@ public class BookController {
         BookEntity savedBook = bookServices.createUpdateBook(isbn,bookEntity);
         BookDTO savedBookDTO = bookMapper.mapTo(savedBook);
         return new ResponseEntity<>(savedBookDTO, HttpStatus.CREATED);
+    }
+    @GetMapping(path = "/book")
+    public Page<BookDTO>listBooks(Pageable pageable){
+        Page<BookEntity>books = bookServices.findAll(pageable);
+        return books.map(bookMapper::mapTo);
     }
     @GetMapping(path = "/books/{isbn}")
     public ResponseEntity<BookDTO>getBook(@PathVariable("isbn") String isbn){
