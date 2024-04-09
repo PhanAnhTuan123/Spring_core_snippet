@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Book;
 import java.util.Optional;
 
 @RestController
@@ -36,7 +37,23 @@ public class BookController {
            return new ResponseEntity<>(bookDTO,HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+    @PatchMapping(path = "/books/{isbn}")
+    public ResponseEntity<BookDTO>partialUpdateBook(
+            @PathVariable("isbn") String isbn,
+            @RequestBody BookDTO bookDTO
+            ){
 
+        if(!bookServices.isExists(isbn)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        BookEntity bookEntity = bookMapper.mapFrom(bookDTO);
+        BookEntity updatedBookEntity = bookServices.partialUpdate(isbn,bookEntity);
+        return new ResponseEntity<>(
+                bookMapper.mapTo(updatedBookEntity),
+                HttpStatus.OK
+        );
+
+    }
 
 
         @RequestMapping(value = "/data", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)

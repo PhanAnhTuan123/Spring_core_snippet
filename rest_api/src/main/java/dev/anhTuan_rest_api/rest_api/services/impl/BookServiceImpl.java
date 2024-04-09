@@ -40,4 +40,15 @@ public class BookServiceImpl implements BookServices {
     public boolean isExists(String isbn) {
         return bookRepository.existsById(isbn);
     }
+
+    @Override
+    public BookEntity partialUpdate(String isbn, BookEntity bookEntity) {
+
+        bookEntity.setIsbn(isbn);
+        return bookRepository.findById(isbn).map(existingBook ->{
+            Optional.ofNullable(bookEntity.getTitle()).ifPresent(existingBook::setTitle);
+            return bookRepository.save(existingBook);
+        }).orElseThrow(() -> new RuntimeException("Book not found !"));
+
+    }
 }

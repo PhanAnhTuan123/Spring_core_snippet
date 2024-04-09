@@ -28,8 +28,11 @@ public class BookEntityRepositoryIntergrationTest {
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
     private BookRepository bookRepository;
+
+    private BookServices bookServices;
     @Autowired
-    public void setMockMvc(MockMvc mockMvc,ObjectMapper objectMapper, BookRepository bookRepository) {
+    public void setMockMvc(MockMvc mockMvc,ObjectMapper objectMapper, BookRepository bookRepository, BookServices bookServices) {
+        this.bookServices = bookServices;
         this.bookRepository = bookRepository;
         this.objectMapper = objectMapper;
         this.mockMvc = mockMvc;
@@ -84,6 +87,25 @@ public class BookEntityRepositoryIntergrationTest {
 
         ).andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+    @Test
+    public void testThatPartialUpdateBookReturnsHttpStatus200ok() throws Exception{
+        BookEntity testBookEntityA = TestDataUtil.createTestBookEntityA(null);
+        bookServices.createUpdateBook(testBookEntityA.getIsbn(),testBookEntityA);
+
+        BookDTO testBookA = TestDataUtil.createTestBookDtoA(null);
+         testBookA.setTitle("UPDATED");
+         String bookJson = objectMapper.writeValueAsString(testBookA);
+
+         mockMvc.perform(
+                 MockMvcRequestBuilders.patch("/books/"+testBookA.getIsbn())
+                         .contentType(MediaType.APPLICATION_JSON)
+                         .content(bookJson)
+         ).andExpect(
+                 MockMvcResultMatchers.status().isOk()
+         );
+
+    }
+
 
 
 }

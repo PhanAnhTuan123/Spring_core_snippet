@@ -13,5 +13,5 @@ public interface BookServices {
     boolean isExists(String isbn);
 
 
-
+    BookEntity partialUpdate(String isbn, BookEntity bookEntity);
 }
