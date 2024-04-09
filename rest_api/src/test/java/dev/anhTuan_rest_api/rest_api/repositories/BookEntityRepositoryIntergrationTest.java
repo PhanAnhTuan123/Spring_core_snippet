@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.anhTuan_rest_api.rest_api.TestDataUtil;
 import dev.anhTuan_rest_api.rest_api.domain.dto.BookDTO;
+import dev.anhTuan_rest_api.rest_api.domain.enties.BookEntity;
+import dev.anhTuan_rest_api.rest_api.services.BookServices;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,10 @@ import java.awt.*;
 public class BookEntityRepositoryIntergrationTest {
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
+    private BookRepository bookRepository;
     @Autowired
-    public void setMockMvc(MockMvc mockMvc,ObjectMapper objectMapper) {
+    public void setMockMvc(MockMvc mockMvc,ObjectMapper objectMapper, BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
         this.objectMapper = objectMapper;
         this.mockMvc = mockMvc;
     }
@@ -56,4 +60,30 @@ public class BookEntityRepositoryIntergrationTest {
                 MockMvcResultMatchers.jsonPath("$.title").value(bookDTO.getTitle())
         );
     }
+
+    @Test
+    public void testThatCreatBookReturnHttpReturnsHttpStatus200WhenBookExists() throws Exception {
+        BookEntity bookEntity = TestDataUtil.createTestBookEntityA(null);
+        bookRepository.save(bookEntity);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/books/"+bookEntity.getIsbn())
+                        .contentType(MediaType.APPLICATION_JSON)
+
+        ).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void testThatCreatBookReturnHttpReturnsHttpStatus404WhenBookExists() throws Exception {
+        BookEntity bookEntity = TestDataUtil.createTestBookEntityA(null);
+//        bookRepository.save(bookEntity);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/books/"+bookEntity.getIsbn())
+                        .contentType(MediaType.APPLICATION_JSON)
+
+        ).andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+
 }
