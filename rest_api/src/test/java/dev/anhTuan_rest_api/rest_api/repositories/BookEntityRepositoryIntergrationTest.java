@@ -103,6 +103,25 @@ public class BookEntityRepositoryIntergrationTest {
          ).andExpect(
                  MockMvcResultMatchers.status().isOk()
          );
+    }
+    @Test
+    public void testThatPartialUpdateBookReturnsUpdatedBook() throws Exception{
+        BookEntity testBookEntityA = TestDataUtil.createTestBookEntityA(null);
+        bookServices.createUpdateBook(testBookEntityA.getIsbn(),testBookEntityA);
+
+        BookDTO testBookA = TestDataUtil.createTestBookDtoA(null);
+        testBookA.setTitle("UPDATED");
+        String bookJson = objectMapper.writeValueAsString(testBookA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/books/" +testBookEntityA.getIsbn())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bookJson)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.isbn").value(testBookEntityA.getIsbn())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.title").value("UPDATED")
+        );
 
     }
 
