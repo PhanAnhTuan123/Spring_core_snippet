@@ -14,7 +14,7 @@ import java.util.Locale;
 public class HelloWorldController {
 
     // new a controller method to show initial HTMl form
-    @PostMapping(path = "/showForm")
+    @GetMapping(path = "/showForm")
     public String showForm(){
         return "helloworld-form";
     }
@@ -43,7 +43,7 @@ public class HelloWorldController {
         return "helloworld";
     }
 
-    @RequestMapping("/processFormVersionThree")
+    @PostMapping("/processFormVersionThree")
     public String processFormVersionThree(@RequestParam("studentName") String theName, Model theModel){
 
 
