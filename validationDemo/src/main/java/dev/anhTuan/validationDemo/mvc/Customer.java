@@ -1,7 +1,6 @@
 package dev.anhTuan.validationDemo.mvc;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Data
@@ -14,5 +13,15 @@ public class Customer {
     @NotNull(message = "is required")
     @Size(message = "is required",min = 1)
     private String lastName = "";
+
+
+    @NotNull(message = "is required")
+    @Min(value = 0,message = "must be greater than or equal to zero")
+    @Max(value = 10,message = "must be greater than or equal to 10")
+    private Integer freePasses;
+
+    @Pattern(regexp = "^[a-zA-Z0-9]{5}",message = "only 5 chars/digits")
+    private String postalCode;
+
 
 }
