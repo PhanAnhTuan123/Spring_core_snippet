@@ -10,6 +10,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 @Log
 public class CruddemoApplication   {
@@ -27,8 +29,58 @@ public class CruddemoApplication   {
 //            deleteInstructor(appDAO);
 //			findInstructorDetail(appDAO);
 //			deleteInstructorDetail(appDAO);
-			createInstructorWithCourses(appDAO);
+//			createInstructorWithCourses(appDAO);
+//			findInstructorWithCourse(appDAO);
+//			findCourseForInstructor(appDAO);
+			findInstructorWithCoursejoinFetch(appDAO);
+
 		};
+
+
+	}
+
+	private void findInstructorWithCoursejoinFetch(AppDAO appDAO) {
+		int theId = 1;
+
+		// find the instructor
+		System.out.println("Finding instructor id: "+theId);
+		Instructor tempInstructor = appDAO.findInstructorByIdJoinFetch(theId);
+
+		System.out.println("tempInstructor: "+tempInstructor);
+		System.out.println("The associated courses: "+tempInstructor.getCourses());
+		System.out.println("Done!!");
+
+	}
+
+	private void findCourseForInstructor(AppDAO appDAO) {
+		int theId = 1;
+		// find instructor
+		System.out.println("Finding instructor id:" + theId);
+		Instructor tempInstructor = appDAO.findInstructorById(theId);
+		System.out.println("tempInstructor: "+tempInstructor);
+
+		// find courses for instructor
+		System.out.println("Finding courses for instructor id: "+theId);
+		List<Course>courses = appDAO.findCoursesByInstructorId(theId);
+
+		// associate the objects
+		tempInstructor.setCourses(courses);
+
+		System.out.println("the associated courses: "+ tempInstructor.getCourses());
+		System.out.println("Done!");
+
+
+
+	}
+
+	private void findInstructorWithCourse(AppDAO appDAO) {
+		int theId = 1;
+		System.out.println("Finding instructor id: "+theId);
+		Instructor tempInstructor = appDAO.findInstructorById(theId);
+		System.out.println("tempInstructor: "+tempInstructor);
+		System.out.println("the  asscociated courses: "+tempInstructor.getCourses());
+
+		System.out.println("Done!");
 	}
 
 	private void createInstructorWithCourses(AppDAO appDAO) {
