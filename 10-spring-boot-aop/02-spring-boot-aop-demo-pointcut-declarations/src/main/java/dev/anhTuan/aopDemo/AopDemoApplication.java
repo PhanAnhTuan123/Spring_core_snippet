@@ -34,6 +34,15 @@ public class AopDemoApplication {
 		// call the business method
 		accountDAO.addAccount(myAccount,true);
 		accountDAO.doWork();
+		System.out.println("Before");
+		// call the accountdao getter/setter methods
+		accountDAO.setName("foobar");
+		accountDAO.setServiceCode("silver");
+		String name = accountDAO.getName();
+		String code = accountDAO.getServiceCode();
+
+		System.out.println("After");
+
 		// call the membership business method
 		membershipDAO.addSillyMember();
 		membershipDAO.goToSleep();
