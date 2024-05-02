@@ -21,7 +21,7 @@ import java.util.UUID;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final WebClient.Builder webClient;
+    private final WebClient.Builder webClientBuilder;
     public void placeOrder(OrderRequest orderRequest){
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
@@ -35,8 +35,8 @@ public class OrderService {
 
          // Call Inventory Service, and place order if prodcut is in
         // stock
-        InventoryResponse[] inventoryResponseArray = webClient.build().get()
-                .uri("http://localhost:8082/api/inventory",uriBuilder -> uriBuilder.queryParam("skuCode",skuCodes).build())
+        InventoryResponse[] inventoryResponseArray = webClientBuilder.build().get()
+                .uri("http://inventory_service/api/inventory",uriBuilder -> uriBuilder.queryParam("skuCode",skuCodes).build())
                 .retrieve()
                 .bodyToMono(InventoryResponse[].class)
                 .block();
