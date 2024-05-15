@@ -45,12 +45,12 @@ public class ProjectSecurityConfig {
                         config.setMaxAge(3600L);
                         return  config;
                     }
-                })).csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler).ignoringRequestMatchers("/contact","register")
+                })).csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler).ignoringRequestMatchers("/contact","/register")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(request ->{
-                    request.requestMatchers("/myAccount","/myBalance","/myLoan","/myCards","/user").authenticated();
-                    request.requestMatchers("/myNotices","/contact","/register").permitAll();
+                    request.requestMatchers("/myLoan","/myBalance","/myLoan","/myCards","/user").authenticated();
+                    request.requestMatchers("/notices","/contact","/register").permitAll();
                 });
                 http.formLogin(Customizer.withDefaults());
                 http.httpBasic(Customizer.withDefaults());

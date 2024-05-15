@@ -1,25 +1,35 @@
 package dev.anhTuan.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Objects;
 
 @Entity
 public class Customer {
+
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO,generator = "native")
+    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
-    private Integer id;
+    @Column(name = "customer_id")
+    private int id;
+
+    private String name;
+
     private String email;
+
+    @Column(name = "mobile_number")
+    private String mobileNumber;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String pwd;
+
     private String role;
 
-    public Customer() {
-    }
+    @Column(name = "create_dt")
+    private String createDt;
 
     public int getId() {
         return id;
@@ -29,12 +39,28 @@ public class Customer {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
     public String getPwd() {
@@ -53,26 +79,12 @@ public class Customer {
         this.role = role;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return id == customer.id;
+    public String getCreateDt() {
+        return createDt;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void setCreateDt(String createDt) {
+        this.createDt = createDt;
     }
 
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", pwd='" + pwd + '\'' +
-                ", role='" + role + '\'' +
-                '}';
-    }
 }
