@@ -21,10 +21,11 @@ function initializeKeycloak(keycloak: KeycloakService) {
     keycloak.init({
       config: {
         url: 'http://localhost:8180/',
-        realm: 'eazybankdev',
-        clientId: 'eazypublicclient',
+        realm: 'anhTuanBank',
+        clientId: 'anhTuanPublicBank',
       },
       initOptions: {
+        
         pkceMethod: 'S256',
         redirectUri: 'http://localhost:4200/dashboard',
       },loadUserProfileAtStartUp: false
