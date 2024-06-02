@@ -1,10 +1,6 @@
 server:
   port: 8080
 
-#Use this pattern to show reduced log width
-logging:
-  pattern:
-    console: %d{HH:mm:ss} [%15thread] %msg%n
   level:
     web: trace
     org:
