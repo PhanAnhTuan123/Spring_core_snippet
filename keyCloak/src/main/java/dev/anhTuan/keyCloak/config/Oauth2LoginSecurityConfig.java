@@ -11,12 +11,14 @@ import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler;
 import org.springframework.security.oauth2.client.oidc.web.server.logout.OidcClientInitiatedServerLogoutSuccessHandler;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestCustomizers;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.SecurityFilterChain;
@@ -32,6 +34,7 @@ import java.util.Set;
 public class Oauth2LoginSecurityConfig {
 
     private final ClientRegistrationRepository clientRegistrationRepository;
+    private static final List<String>SOCIAL_PROVIDER = List.of("Google","Facebook","GitLab","Github");
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -49,25 +52,39 @@ public class Oauth2LoginSecurityConfig {
     }
 
     private OAuth2UserService<OidcUserRequest, OidcUser> userService() {
-        final OidcUserService delegate = new OidcUserService();
+//        final OidcUserService delegate = new OidcUserService();
         return (userRequest) ->{
 
             // Delegate to the default implementation for loading a user
-            OidcUser oidcUser = delegate.loadUser(userRequest);
+            OidcUser oidcUser = oidcUserService().loadUser(userRequest);
 
             // Not used in this logic
             OAuth2AccessToken accessToken = userRequest.getAccessToken();
 
             // Get the roles from the ID token
-            List<String>roles = oidcUser.getIdToken().getClaim("roles");
-            if (roles == null){
-                roles = List.of();
-            }
+//            List<String>roles = oidcUser.getIdToken().getClaim("roles");
+//            if (roles == null){
+//                roles = List.of();
+//            }
 
             // map the roles to authorities
             Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
-            List<SimpleGrantedAuthority> lisAuthorities = roles.stream().map(SimpleGrantedAuthority::new).toList();
-            mappedAuthorities.addAll(lisAuthorities);
+
+
+            // Handle different clients
+            ClientRegistration cliReg = userRequest.getClientRegistration();
+            if(isSocial(cliReg.getClientName())){
+                mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_bugtracker.user"));
+            }else{
+                List<String>roles = oidcUser.getIdToken().getClaim("roles");
+                if(roles == null){
+                    roles = List.of();
+                }
+                List<SimpleGrantedAuthority> lisAuthorities = roles.stream().map(SimpleGrantedAuthority::new).toList();
+                mappedAuthorities.addAll(lisAuthorities);
+            }
+
+
 
             // Create new DefaultOidcUser with authorities
             return new DefaultOidcUser(mappedAuthorities, oidcUser.getIdToken(),oidcUser.getUserInfo());
@@ -90,7 +107,19 @@ public class Oauth2LoginSecurityConfig {
         resolver.setAuthorizationRequestCustomizer(OAuth2AuthorizationRequestCustomizers.withPkce());
         return resolver;
     }
+    @Bean
+    public OidcUserService oidcUserService(){
+        return new OidcUserService(){
+            @Override
+            public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
+                return super.loadUser(userRequest);
+            }
+        };
+    }
 
+    private boolean isSocial(String clientName){
+        return (SOCIAL_PROVIDER.contains(clientName));
+    }
 
 
 }
