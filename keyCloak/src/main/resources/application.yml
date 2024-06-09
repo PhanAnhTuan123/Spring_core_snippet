@@ -1,12 +1,14 @@
 server:
   port: 8080
-
+logging:
   level:
     web: trace
     org:
       springframework:
         web:
           client: trace
+
+
 spring:
   security:
     oauth2:
@@ -16,7 +18,8 @@ spring:
             provider: keycloak
             client-name: bugtracker
             client-id: bugtracker
-            client-secret: gDvz4Qr1UWODHR9PgkgggxxpyaBtr6Ft
+            client-secret: GCtEu85aLJA8TQMucq9cXo7BpZ5Ze2NO
+#            client-authentication-method: none
             authorization-grant-type: authorization_code
             scope:
               - openid
